@@ -1,0 +1,42 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install components
+        run: |
+          chmod +x ./install.sh
+          ./install.sh
+
+      - name: Build for local environment
+        run: |
+          chmod +x ./build.sh
+          ./build.sh
+
+      - name: Build for beta environment
+        run: |
+          chmod +x ./build.sh
+          ./build.sh beta
+
+      - name: Build for production environment
+        run: |
+          chmod +x ./build.sh
+          ./build.sh prod
+
+      - name: Run tests
+        run: |
+          chmod +x ./test.sh
+          ./test.sh
